@@ -28,9 +28,12 @@ export class BooksService {
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
-    return this.booksClient.send<BookDto, UpdateBookDto>(BOOKS_PATTERNS.UPDATE, {
-      ...updateBookDto,
-    });
+    return this.booksClient.send<BookDto, UpdateBookDto>(
+      BOOKS_PATTERNS.UPDATE,
+      {
+        ...updateBookDto,
+      },
+    );
   }
 
   remove(id: number) {

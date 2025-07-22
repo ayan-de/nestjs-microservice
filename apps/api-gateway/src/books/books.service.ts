@@ -1,14 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateBookDto, UpdateBookDto } from '@app/contracts';
+import {
+  BookDto,
+  BOOKS_PATTERNS,
+  CreateBookDto,
+  UpdateBookDto,
+} from '@app/contracts';
 import { ClientProxy } from '@nestjs/microservices';
-import { BOOKS_PATTERNS } from '../../../../libs/contracts/src/books/books.patterns';
+import { BOOKS_CLIENT } from './constant';
 
 @Injectable()
 export class BooksService {
-  constructor(@Inject('BOOKS_CLIENT') private booksClient: ClientProxy) {}
+  constructor(@Inject(BOOKS_CLIENT) private booksClient: ClientProxy) {}
 
   create(createBookDto: CreateBookDto) {
-    return this.booksClient.send(BOOKS_PATTERNS.CREATE, createBookDto);
+    return this.booksClient.send<BookDto, CreateBookDto>(
+      BOOKS_PATTERNS.CREATE,
+      createBookDto,
+    );
   }
 
   findAll() {
@@ -20,7 +28,9 @@ export class BooksService {
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
-    return this.booksClient.send(BOOKS_PATTERNS.UPDATE, { ...updateBookDto });
+    return this.booksClient.send<BookDto, UpdateBookDto>(BOOKS_PATTERNS.UPDATE, {
+      ...updateBookDto,
+    });
   }
 
   remove(id: number) {

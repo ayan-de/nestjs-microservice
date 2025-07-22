@@ -13,7 +13,7 @@ export class BooksService {
       rating: 3.9,
     },
     {
-      id: 1,
+      id: 2,
       title: 'Title 2',
       author: 'Author 2',
       rating: 4.7,
@@ -39,7 +39,7 @@ export class BooksService {
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+    return `This action updates a #${id} book ${updateBookDto.author} ${updateBookDto.rating}`;
   }
 
   remove(id: number) {

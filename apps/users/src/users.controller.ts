@@ -4,6 +4,7 @@ import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class UsersController {
+  //calling a constructor to use service
   constructor(private readonly usersService: UsersService) {}
 
   //message pattern - domainName.operationName

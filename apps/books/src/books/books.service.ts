@@ -18,17 +18,24 @@ export class BooksService {
       author: 'Author 2',
       rating: 4.7,
     },
-  ]
+  ];
+
   create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+    const newBook: BookDto = {
+      ...createBookDto,
+      id: this.books.length + 1,
+    };
+
+    this.books.push(newBook);
+    return newBook;
   }
 
   findAll() {
-    return `This action returns all books`;
+    return this.books;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} book`;
+    return this.books[id];
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
@@ -36,6 +43,7 @@ export class BooksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} book`;
+    this.books = this.books.filter((item) => item.id !== id);
+    return this.books;
   }
 }

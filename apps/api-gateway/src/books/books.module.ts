@@ -1,25 +1,24 @@
 import { Module } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { BooksController } from './books.controller';
-import { ClientsModule } from '@nestjs/microservices';
 import { BOOKS_CLIENT } from './constant';
 import { ClientConfigModule } from '../client-config/client-config.module';
 import { ClientConfigService } from '../client-config/client-config.service';
+import { ClientProxyFactory } from '@nestjs/microservices';
 
 @Module({
   controllers: [BooksController],
-  providers: [BooksService],
-  imports: [
-    ClientsModule.registerAsync([
-      {
-        name: BOOKS_CLIENT,
-        imports: [ClientConfigModule],
-        useFactory: (clientConfig: ClientConfigService) => ({
-          ...clientConfig.booksClientOptions,
-        }),
-        inject: [ClientConfigService],
+  providers: [
+    BooksService,
+    {
+      provide: BOOKS_CLIENT,
+      useFactory: (clientConfig: ClientConfigService) => {
+        const clientOptions = clientConfig.booksClientOptions;
+        return ClientProxyFactory.create(clientOptions);
       },
-    ]),
+      inject: [ClientConfigService],
+    },
   ],
+  imports: [ClientConfigModule],
 })
 export class BooksModule {}

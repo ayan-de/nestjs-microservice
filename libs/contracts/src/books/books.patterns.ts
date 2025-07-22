@@ -4,4 +4,4 @@ export const BOOKS_PATTERNS = {
   CREATE: 'books.create',
   UPDATE: 'books.update',
   REMOVE: 'books.remove',
-};
+} as const;

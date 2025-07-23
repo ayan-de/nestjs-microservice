@@ -35,7 +35,7 @@ export class BooksService {
   }
 
   findOne(id: number) {
-    return this.books[id];
+    return this.books.find((book) => book.id === id);
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
